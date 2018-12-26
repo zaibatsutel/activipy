@@ -220,6 +220,12 @@ class ASObj(object):
         self.env = env
 
         self.__jsobj = deepcopy_jsobj_in(jsobj, env)
+        # Check if there is a key 'type' or 'id' -- we're going to copy those into @type
+        # and @id since those are aliases.
+        if self.__jsobj.get('type', None) != None:
+            self.__jsobj['@type'] = self.__jsobj.pop('type')
+        if self.__jsobj.get('id', None) != None:
+            self.__jsobj['@id'] = self.__Jsobj.pop('id')
 
         assert (isinstance(self.__jsobj.get("@type"), str) or
                 isinstance(self.__jsobj.get("@type"), list))
